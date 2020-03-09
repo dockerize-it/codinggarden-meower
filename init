@@ -16,7 +16,7 @@ USER="${SUDO_USER:-${USER}}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 cd "$SCRIPTDIR"
-echo "entering $PWD and running mongod ; server/start.sh ; client/start.sh " > ../app.log 2>&1
+echo "entering $PWD and running mongod ; server/start.sh ; client/start.sh " > ./app.log 2>&1
 echo >> ./app.log
 
 if [ ! -z "$MONGDB" ]; then
@@ -31,7 +31,7 @@ if [ -d "$SCRIPTDIR/client" ]; then
   client/start.sh &
 fi
 
-echo "exit = $?" >> ../app.log 2>&1
+echo "exit = $?" >> ./app.log 2>&1
 
 tail -f ./app.log ./mongo.app.log
 
