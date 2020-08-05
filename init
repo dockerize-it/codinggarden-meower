@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+SCRIPTNAME="$(basename $0)"
+SCRIPTDIR="$(dirname "${BASH_SOURCE[0]}")"
+USER="${SUDO_USER:-${USER}}"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# @Author      : Jason
+# @Contact     : casjaysdev@casjay.net
+# @File        : init
+# @Created     : Mon, Dec 31, 2019, 00:00 EST
+# @License     : WTFPL
+# @Copyright   : Copyright (c) CasjaysDev
+# @Description : init script for docker containers
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+cd "$SCRIPTDIR"
+echo "entering $PWD and running mongod ; server/start.sh ; client/start.sh " > ./app.log 2>&1
+echo >> ./app.log
+
+if [ ! -z "$MONGDB" ]; then
+  mongod -vvvv > ./mongo.app.log 2>&1 &
+fi
+
+if [ -d "$SCRIPTDIR/server" ]; then
+  server/start.sh &
+fi
+
+if [ -d "$SCRIPTDIR/client" ]; then
+  client/start.sh &
+fi
+
+echo "exit = $?" >> ./app.log 2>&1
+
+tail -f ./app.log ./mongo.app.log
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
