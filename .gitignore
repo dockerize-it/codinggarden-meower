@@ -1,2 +1,5 @@
+# Disable reminder in prompt
+ignoredirmessage
+
 node_modules
 .DS_STORE
